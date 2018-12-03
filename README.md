@@ -5,7 +5,7 @@ Project built with NodeJs, allow user login/sign-up. Have 2 role normal user and
  - NodeJs, express
  - MongoDB/Mongoose
  - Html/Css/Jquery
- - Mocha, suportest
+ - Mocha, supertest
  
 # Set up and instruction
 
