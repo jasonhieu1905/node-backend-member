@@ -27,5 +27,25 @@ exports.login = function (req, res) {
     })
 }
 
+exports.findAllMembers = function (req, res) {
+    Member.find({admin: false}, (err, members) => {
+        if(err) {
+            res.status(400).end(err.message);
+        } else {
+            res.send(members).end();
+        }
+    }) 
+}
+
+exports.deleteMember = function(req, res) {
+    Member.deleteOne({username: req.body.username}, (err, member) => {
+        if(err) {
+            res.status(400).end(err.message);
+        } else {
+            res.send(member).end();
+        }
+    })
+}
+
 
 

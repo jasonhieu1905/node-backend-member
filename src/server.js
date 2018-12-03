@@ -14,8 +14,8 @@ app.use(express.static(__dirname + '/views'));
 var routes = require('./routes/route');
 routes(app);
 
-app.listen(3000, () => {
-    console.log('started on port 3000');
+app.listen(4200, () => {
+    console.log('started on port 4200');
 })
 
 module.exports = {app};

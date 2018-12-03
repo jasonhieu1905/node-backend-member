@@ -1,23 +1,25 @@
 const expect = require('expect');
 const request = require('supertest');
 
-const {app} = require('./../server');
-const {Member} = require('./../model/member');
+const { app } = require('./../server');
+const  Member = require('./../model/member');
+var bcrypt = require('bcrypt');
 
+// init data for testing
 const members = [
     {
         username: 'hieudoan1',
-        password: 'password1'
+        password: '123123'
     },
     {
         username: 'hieudoan2',
-        password: 'password2'
+        password: '123123'
     }
 ]
 
 beforeEach((done) => {
     Member.deleteMany({}).then(() => {
-        return Member.insertMany(members)        
+        return Member.insertMany(members)
     }).then(() => done());
 })
 
@@ -25,15 +27,17 @@ describe('POST - members', () => {
     it('should create a new member role user', (done) => {
         var member = {
             username: 'hieudoan3',
-            password: 'password3'
+            password: '123123'
         }
         request(app)
-            .post('/members')
+            .post('/register')
             .send(member)
             .expect(200)
             .expect((res) => {
                 expect(res.body.username).toBe(member.username);
-                expect(res.body.password).toBe(member.password);
+                bcrypt.compare(member.password, res.body.password,  (err, result) => {
+                    expect(result).toBe(true);
+                })
             })
             .end((err, res) => {
                 if (err) {
@@ -41,8 +45,10 @@ describe('POST - members', () => {
                 }
                 Member.find().then(members => {
                     expect(members.length).toBe(3);
-                    expect(members[members.length-1].username).toBe(member.username);
-                    expect(members[members.length-1].password).toBe(member.password);
+                    expect(members[members.length - 1].username).toBe(member.username);
+                    bcrypt.compare(member.password, res.body.password,  (err, result) => {
+                        expect(result).toBe(true);
+                    })
                     done();
                 }).catch((err) => {
                     done(err);
@@ -51,33 +57,54 @@ describe('POST - members', () => {
     })
 
 
-    // it('should not create member with invalid body data', (done) => {
-    //     request(app)
-    //      .post('/members')
-    //      .send({})
-    //      .expect(400)
-    //      .end((res, err) => {
-    //          console.log('res', res.body);
-    //          console.log('err', err);
-    //          if(err) {
-    //              return done(err);
-    //          }
-    //          Member.find().then(members => {
-    //              expect(members.length).toBe(0);
-    //              done();
-    //          })
-    //      })
-    // })
+    it('should not create member with username already exist', (done) => {
+        const member = {username: 'hieudoan1', password: '123123'}
+        request(app)
+         .post('/register')
+         .send(member)
+         .expect(400)
+         .end((res, err) => {
+             expect(err.text).toBe("Username exists!")
+             Member.find().then(members => {
+                 expect(members.length).toBe(2);
+                 done();
+             })
+         })
+    })
 })
 
-describe('POST - members', () => {
+describe('GET - members', () => {
     it('should get all members', (done) => {
         request(app)
             .get('/members')
             .expect(200)
             .expect(res => {
-                expect(res.body.members.length).toBe(2)
+                expect(res.body.length).toBe(2)
             })
             .end(done);
+    })
+})
+
+describe('DELETE - members', () => {
+    it('should delete member', (done) => {
+        const member = { username: 'hieudoan1' }
+        request(app)
+            .delete('/members')
+            .send(member)
+            .expect(200)
+            .expect(res => {
+                expect(res.body.ok).toBe(1);
+            })
+            .end((err, res) => {
+                if (err) {
+                    return done(err);
+                }
+                Member.find({}).then(members => {
+                    expect(members.length).toBe(1);
+                    done();
+                }).catch((err) => {
+                    done(err);
+                })
+            });
     })
 })

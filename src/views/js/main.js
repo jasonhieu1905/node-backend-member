@@ -51,8 +51,10 @@ $(document).ready(function () {
             type: "POST",
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(member),
-            success: function(result){
+            success: function(result){                
                 alert("Login successfully ...");
+                localStorage.setItem("member", JSON.stringify(result));
+                window.location.href = "/member";
             },
             error: function(err) {
                 alert("Can not login: " + err.responseText);

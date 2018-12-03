@@ -26,3 +26,44 @@ form {
   #form-switch:checked~#login-form {
     display:none
   }
+
+ .member-container {
+   width: 1020px;
+   margin: auto;
+   padding: 30px;
+ } 
+
+ .member-detail {
+   clear: both;
+ }
+
+ table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.member-page {
+  display: block;
+}
+
+.member-page span {
+  float:left;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.member-page button {
+  float:right;
+}

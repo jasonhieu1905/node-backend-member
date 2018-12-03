@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Member Detail Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/styles.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/member.js"></script>
+
+</head>
+
+<body>
+    <div class="member-container">
+        <div class="member-page">
+            <span>Member page</span>
+            <button id="logout">Logout</button>
+        </div>
+
+        <h3 class="member-detail">Member detail : </h3>
+        <div class="member">
+            Username: <span id="member-username"></span> <br />
+            Admin: <span id="member-admin"></span>
+        </div>
+
+        <table id="member-table" style="display: none">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Delete Member</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
